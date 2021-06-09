@@ -27,7 +27,7 @@ jobs:
         with:
           mode: start
           github-token: ${{ secrets.GH_TOKEN }}
-          ec2-image-id: github-actions-selfhosted-poc
+          ec2-image-id: ${{ secrets.AWS_AMI_MAVEN }}
           ec2-instance-type: t2.micro
           subnet-id: ${{ secrets.AWS_SUBNET_ID }}
           security-group-id: ${{ secrets.AWS_EC2_SG_ID }}
