@@ -28,7 +28,7 @@ jobs:
         with:
           mode: start
           github-token: ${{ secrets.GH_TOKEN }}
-          ec2-image-id: ami-01de8ddb33de7a3d3 #TODO: Ocorreu erro ao usar a AMI criada na conta. Essa é uma obtida em https://cloud-images.ubuntu.com/locator/ec2/
+          ec2-image-id: ${{ secrets.AWS_AMI_MAVEN }}  #TODO: Ocorreu erro ao usar a AMI criada na conta. Essa é uma obtida em https://cloud-images.ubuntu.com/locator/ec2/
           ec2-instance-type: t2.micro
           subnet-id: subnet-cc8107a7
           security-group-id: sg-059973673278f45f7
