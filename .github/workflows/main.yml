@@ -20,7 +20,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: us-east-1 #TODO: Ocorreu erro ao usar a informação da região obtida do GH Secret...
       - name: Cria a EC2 e associa ao GitHub como self-hosted runner
         id: start-ec2-runner
         uses: sandrosantoszup/github-selhostedrunner-ec2-action@v0.0.1
@@ -66,7 +66,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: us-east-1 #TODO: Ocorreu erro ao usar a informação da região obtida do GH Secret...
       - name: Termina a EC2 utilizada como self-hosted runner
         uses: sandrosantoszup/github-selhostedrunner-ec2-action@v0.0.1
         with:
