@@ -1,0 +1,76 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  start-runner:
+    name: Inicia a instancia EC2 na AWS
+    runs-on: ubuntu-latest
+    outputs:
+      label: ${{ steps.start-ec2-runner.outputs.label }}
+      ec2-instance-id: ${{ steps.start-ec2-runner.outputs.ec2-instance-id }}
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Cria a EC2 e associa ao GitHub como self-hosted runner
+        id: start-ec2-runner
+        uses: sandrosantoszup/github-selhostedrunner-ec2-action@v0.0.1
+        with:
+          mode: start
+          github-token: ${{ secrets.GH_TOKEN }}
+          ec2-image-id: github-actions-selfhosted-poc
+          ec2-instance-type: t2.micro
+          subnet-id: ${{ secrets.AWS_SUBNET_ID }}
+          security-group-id: ${{ secrets.AWS_EC2_SG_ID }}
+          #iam-role-name: my-role-name # optional, requires additional permissions
+          #aws-resource-tags: > # optional, requires additional permissions
+          #  [
+          #    {"Key": "Name", "Value": "ec2-github-runner"},
+          #    {"Key": "GitHubRepository", "Value": "${{ github.repository }}"}
+          #  ]
+
+  do-the-job:
+    name: Executa o job
+    needs: start-runner # required to start the main job when the runner is ready
+    runs-on: ${{ needs.start-runner.outputs.label }} # run the job on the newly created runner
+    steps:
+    - uses: actions/checkout@v2
+#A AMI utilizada nesse exemplo já possui JDK e Maven instalados para diminuir o tempo de disponibilização para execução
+#    - name: Set up JDK 11
+#      uses: actions/setup-java@v2
+#      with:
+#        java-version: '11'
+#        distribution: 'adopt'
+    - name: Empacotamento
+      run: mvn -B package --file pom.xml
+  
+  stop-runner:
+    name: Termina a self-hosted Runner
+    needs:
+      - start-runner
+      - do-the-job
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - name: Configura o acesso para a conta na AWS
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Termina a EC2 utilizada como self-hosted runner
+        uses: sandrosantoszup/github-selhostedrunner-ec2-action@v0.0.1
+        with:
+          mode: stop
+          github-token: ${{ secrets.GH_TOKEN }}
+          label: ${{ needs.start-runner.outputs.label }}
+          ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}
