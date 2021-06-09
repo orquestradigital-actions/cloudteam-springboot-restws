@@ -27,10 +27,10 @@ jobs:
         with:
           mode: start
           github-token: ${{ secrets.GH_TOKEN }}
-          ec2-image-id: ${{ secrets.AWS_AMI_MAVEN }}
+          ec2-image-id: ami-07d69aa2436af950c #TODO: Ocorreu erro ao usar o ID da AMI obtido do GH Secret...
           ec2-instance-type: t2.micro
-          subnet-id: ${{ secrets.AWS_SUBNET_ID }}
-          security-group-id: ${{ secrets.AWS_EC2_SG_ID }}
+          subnet-id: subnet-cc8107a7
+          security-group-id: sg-059973673278f45f7
           #iam-role-name: my-role-name # optional, requires additional permissions
           #aws-resource-tags: > # optional, requires additional permissions
           #  [
