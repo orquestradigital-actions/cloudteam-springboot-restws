@@ -1,29 +1,8 @@
 # Spring Boot REST Web Service Sample
+[![Java CI with Maven](https://github.com/sandrosantoszup/cloudteam-springboot-restws/actions/workflows/main.yml/badge.svg)](https://github.com/sandrosantoszup/cloudteam-springboot-restws/actions/workflows/main.yml)
+
 Esse repositório contém o arquétipo de um web service REST desenvolvido em Spring Boot para execução em container Docker.
 Contempla também o código necessário para criação da esteira de integração contínua com as etapas:
-
-## ETAPA 3: BUILD CHECK
-Premissas
-
-* O código deve ser compilado sem erros
-* O código deve ter cobertura de testes mínima de 80%
-* Os testes unitários devem ser executados com sucesso
-* O arquivo Dockerfile (especificação do container) deve atender as premissas estabelecidas
-* Se passar pelas verificações acima, empacotar o software como um JAR
-
-## ETAPA 4: CODE QUALITY CHECK
-Não está construído
-
-Preve a configuração do serviço AWS CodeGuru conectado ao respositório GitHub, onde, efetuará a revisão do código ao detectar um Pull Request na branch 
-
-
-
-
-
-
-
-
-
 
 Referências:
 
