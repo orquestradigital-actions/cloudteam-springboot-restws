@@ -21,14 +21,14 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2 #TODO: Ocorreu erro ao usar a informação da região obtida do GH Secret...
+          aws-region: ${{ secrets.AWS_REGION }}
       - name: Cria a EC2 e associa ao GitHub como self-hosted runner
         id: start-ec2-runner
         uses: sandrosantoszup/github-selhostedrunner-ec2-action@v0.0.1
         with:
           mode: start
           github-token: ${{ secrets.GH_TOKEN }}
-          ec2-image-id: ${{ secrets.AWS_AMI_MAVEN }}  #TODO: Ocorreu erro ao usar a AMI criada na conta. Essa é uma obtida em https://cloud-images.ubuntu.com/locator/ec2/
+          ec2-image-id: ${{ secrets.AWS_AMI_MAVEN }}
           ec2-instance-type: t2.micro
           subnet-id: subnet-cc8107a7
           security-group-id: sg-059973673278f45f7
@@ -41,8 +41,8 @@ jobs:
 
   do-the-job:
     name: Executa o job
-    needs: start-runner # required to start the main job when the runner is ready
-    runs-on: ${{ needs.start-runner.outputs.label }} # run the job on the newly created runner
+    needs: start-runner
+    runs-on: ${{ needs.start-runner.outputs.label }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
@@ -66,7 +66,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2 #TODO: Ocorreu erro ao usar a informação da região obtida do GH Secret...
+          aws-region: ${{ secrets.AWS_REGION }}
       - name: Termina a EC2 utilizada como self-hosted runner
         uses: sandrosantoszup/github-selhostedrunner-ec2-action@v0.0.1
         with:
