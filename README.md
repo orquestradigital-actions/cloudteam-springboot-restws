@@ -11,10 +11,3 @@ Referências:
 [Building an Application with Spring Boot](https://spring.io/guides/gs/spring-boot/)
 
 [Dependency-check-maven is very simple to utilize and can be used as a stand-alone plug-in or as part of the site plug-in. The plug-in requires Maven 3.1 or higher.](https://https://jeremylong.github.io/DependencyCheck/dependency-check-maven/)
-
-`mvn verify`
-
-`APP_REPO_URL=$(git remote get-url origin)`
-`trufflehog --regex --rules .cloudteam-aws-quickstarts-devsecops-ci/springboot/rest-ws/truffleHog.json --entropy=False "$APP_REPO_URL"
-`
-
