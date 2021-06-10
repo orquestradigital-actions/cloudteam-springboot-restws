@@ -33,11 +33,11 @@ jobs:
           subnet-id: subnet-cc8107a7
           security-group-id: sg-059973673278f45f7
           #iam-role-name: my-role-name # optional, requires additional permissions
-          #aws-resource-tags: > # optional, requires additional permissions
-          #  [
-          #    {"Key": "Name", "Value": "ec2-github-runner"},
-          #    {"Key": "GitHubRepository", "Value": "${{ github.repository }}"}
-          #  ]
+          aws-resource-tags: > # optional, requires additional permissions
+            [
+              {"Key": "Name", "Value": "github-runner"},
+              {"Key": "GitHubRepository", "Value": "${{ github.repository }}"}
+            ]
 
   do-the-job:
     name: Executa o job
